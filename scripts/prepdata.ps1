@@ -90,9 +90,7 @@ if ($process.ExitCode -ne 0) {
 Write-Host ""
 Write-Host 'Running "prepdocs.py"...'
 Write-Host ""
-#$predocsArguments = "./scripts/indexing/prepdocs.py", "./data/surface_device_documentation/",
-#ingest your own code:
-$predocsArguments = "./scripts/indexing/prepdocs.py", "C:/customers/Microsoft/openai/End_to_end_Solutions/AOAISearchDemo/",
+$predocsArguments = "./scripts/indexing/prepdocs.py", "./data/surface_device_documentation/",
   "--storageaccount", $env:AZURE_STORAGE_ACCOUNT,
   "--container", $env:AZURE_STORAGE_CONTAINER, 
   "--searchservice", $env:AZURE_SEARCH_SERVICE, 
