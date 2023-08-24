@@ -15,6 +15,8 @@ $tenantId = $env:AZURE_TENANT_ID
 $clientId = $env:AZURE_CLIENT_ID
 $clientSecret = $env:AZURE_CLIENT_SECRET
 
+azd env set "KEYVAULT_URI" "https://$keyVaultName.vault.azure.net/"
+
 Write-Host ""
 Write-Host "Fetching secrets from Azure Key Vault '$keyVaultName'..."
 Write-Host ""
