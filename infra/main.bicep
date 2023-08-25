@@ -20,8 +20,6 @@ param searchServiceResourceGroupLocation string = location
 
 param searchServiceSkuName string = 'standard'
 param searchIndexName string = 'gptkbindex'
-//param searchIndexName string = 'codeindex'
-
 
 param storageAccountName string = ''
 param storageResourceGroupName string = ''
@@ -32,11 +30,11 @@ param openAiServiceName string = ''
 param openAiResourceGroupName string = ''
 param openAiResourceGroupLocation string = location
 param openAiSkuName string = 'S0'
-param gptDeploymentName string = ''
-param gptModelName string = ''
-param gptModelVersion string = '0314'
-param classifierGptDeploymentName string = ''
-param classifierGptModelName string = ''
+param gptDeploymentName string = 'gpt-4'//'gpt-35-turbo-16K'
+param gptModelName string = 'gpt-4' //'gpt-35-turbo'
+param gptModelVersion string = '0613'
+param classifierGptDeploymentName string = 'gpt-35-turbo'
+param classifierGptModelName string = 'gpt-35-turbo'
 param classifierGptModelVersion string = '0301'
 
 param cosmosAccountName string = ''
@@ -222,7 +220,6 @@ module servicesKeyVaultAccessPolicies 'core/keyvault/keyvault-access-policy.bice
         }
         tenantId: subscription().tenantId
       }
-      // Added by Randy
       {
         objectId: principalId
         permissions: {
@@ -233,7 +230,7 @@ module servicesKeyVaultAccessPolicies 'core/keyvault/keyvault-access-policy.bice
         }
         tenantId: subscription().tenantId
       }
-      //if objectId is not empty, what then?
+      //if objectId is empty do not do this
       {
         objectId: objectId
         permissions: {
@@ -263,9 +260,8 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
     sku: {
       name: openAiSkuName
     }
-    /*
+    
     deployments: [
-      //NOTE: Uncomment if you want to deploy OpenAI models from scratch
       //RT:  This should be based on flags in the ENV 
       {
         name: !empty(gptDeploymentName) ? gptDeploymentName : 'gpt-4'
@@ -275,7 +271,11 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
           version: gptModelVersion
         }
         scaleSettings: {
-          scaleType: 'Standard'
+            scaleType: 'Standard'
+        }
+        sku: {
+          name: 'Standard'
+          capacity: 10  //10K TPM
         }
       }
       {
@@ -284,23 +284,17 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
           format: 'OpenAI'
           name: !empty(classifierGptModelName) ? classifierGptModelName : 'gpt-35-turbo'
           version: classifierGptModelVersion
+       }
+       scaleSettings: {
+        scaleType: 'Standard'
         }
-        scaleSettings: {
-          scaleType: 'Standard'
-        }
+    sku: {
+      name: 'Standard'
+      capacity: 10  //10K TPM
+         }
       }
-      {
-        name: classifierGptDeploymentName
-        model: {
-          format: 'OpenAI'
-          name: classifierGptModelName
-          version: '1'
-        }
-        scaleSettings: {
-          scaleType: 'Standard'
-        }
-      }
-    ] */
+
+    ]
   }
 }
 
