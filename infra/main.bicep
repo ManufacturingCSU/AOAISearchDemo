@@ -269,9 +269,9 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
           format: 'OpenAI'
           name: !empty(gptModelName) ? gptModelName : 'gpt-4'
           version: gptModelVersion
-        }
-        scaleSettings: {
-            scaleType: 'Standard'
+//        }
+//        scaleSettings: {
+//            scaleType: 'Standard'
         }
         sku: {
           name: 'Standard'
@@ -285,15 +285,14 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
           name: !empty(classifierGptModelName) ? classifierGptModelName : 'gpt-35-turbo'
           version: classifierGptModelVersion
        }
-       scaleSettings: {
-        scaleType: 'Standard'
-        }
+//       scaleSettings: {
+//        scaleType: 'Standard'
+//        }
     sku: {
       name: 'Standard'
       capacity: 10  //10K TPM
          }
       }
-
     ]
   }
 }

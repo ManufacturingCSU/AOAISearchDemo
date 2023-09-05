@@ -7,7 +7,12 @@ combine_index = lambda idx_lst: ' '.join(idx_lst)
 
 
 def compute_tokens(input_str: str, model_name: Optional[str] = "gpt-4") -> int:
-    encoding = tiktoken.encoding_for_model(model_name)
+    try:
+        encoding = tiktoken.encoding_for_model(model_name)
+    except:
+        encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+        pass
+
     return len(encoding.encode(input_str))
 
 
@@ -15,7 +20,12 @@ def trim_history(history: List[dict], max_token_length: int, model_name: Optiona
     if len(history) == 0:
         return history
     
-    encoding = tiktoken.encoding_for_model(model_name)
+    try:
+        encoding = tiktoken.encoding_for_model(model_name)
+    except:
+        encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+        pass
+    
     current_token_length = len(encoding.encode(convert_history_to_text(history)))
 
     while current_token_length > max_token_length:
@@ -30,7 +40,12 @@ def trim_history_and_index_combined(history: List[dict], index: List, max_token_
     # start trimming from index first
     trimming_idx = 1
     
-    encoding = tiktoken.encoding_for_model(model_name)
+    try:
+        encoding = tiktoken.encoding_for_model(model_name)
+    except:
+        encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+        pass
+
     current_token_length = len(encoding.encode(convert_history_to_text(history) + combine_index(index)))
 
     while current_token_length > max_token_length:
