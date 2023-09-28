@@ -60,7 +60,7 @@ There are two pre-recorded voiceovers that shows how enterprises can use this ar
 #### Project Initialization
 
 1. Clone this repo into a new folder and navigate to the repo root folder in the terminal.
-2. Run `azd auth login`.
+2. Run the following code in PowerShell: `azd auth login`
 
 #### Use existing resources
 
@@ -84,10 +84,11 @@ Due to high demand, Azure OpenAI resources can be difficult to spin up on the fl
 
 Execute the following command, if you don't have any pre-existing Azure services and want to start from a fresh deployment.
 
-1. Uncomment the Azure Open AI deployments inside the main [Bicep template](./infra/main.bicep). By default, no GPT models are deployed.
-2. Go to `app/backend/bot_config.yaml`. This file contains the model configuration definitions for the Azure OpenAI models that will be used. It defines request parameters like temperature, max_tokens, etc., as well as the deployment name (`engine`) and model name (`model_name`) of the deployed models to use from your Azure OpenAI resource. These are broken down by task, so the request parameters and model for doing question classification on a user utterance can differ from those used to turn natural language into SQL for example. You will want the deployment name (`engine`) for the `approach_classifier` to match the one set for the classifier model deployed in the last step. For the rest, you will want the deployment name (`engine`) and model name (`model_name`) to match those for the GPT model deployed in the last step. For the models which specify a `total_max_tokens`, you will want to set this value to the maximum number of tokens your deployed GPT model allows for a completions request. This will allow the backend service to know when prompts need to be trimmed to avoid a token limit error.
-    * Note that the config for `approach_classifier` doesn't contain a system prompt, this is because the demo expects this model to be a fine-tuned GPT model rather than one trained using few-shot training. You will need to provide a fine-tuned model trained on some sample data for the dialog classification to work well. For more information on how to do this, checkout the [fine-tuning section](README.md#fine-tuning)
-3. Run `azd up`
+1. This step has already been done within the repo. <BR> _Uncomment the Azure Open AI deployments inside the main [Bicep template](./infra/main.bicep). By default, no GPT models are deployed_.
+2. This step has already been done within the repo. <BR> _Go to `app/backend/bot_config.yaml`. This file contains the model configuration definitions for the Azure OpenAI models that will be used. It defines request parameters like temperature, max_tokens, etc., as well as the deployment name (`engine`) and model name (`model_name`) of the deployed models to use from your Azure OpenAI resource. These are broken down by task, so the request parameters and model for doing question classification on a user utterance can differ from those used to turn natural language into SQL for example. You will want the deployment name (`engine`) for the `approach_classifier` to match the one set for the classifier model deployed in the last step. For the rest, you will want the deployment name (`engine`) and model name (`model_name`) to match those for the GPT model deployed in the last step. For the models which specify a `total_max_tokens`, you will want to set this value to the maximum number of tokens your deployed GPT model allows for a completions request. This will allow the backend service to know when prompts need to be trimmed to avoid a token limit error._
+    * __Note__: that the config for `approach_classifier` doesn't contain a system prompt, this is because the demo expects this model to be a fine-tuned GPT model rather than one trained using few-shot training. You will need to provide a fine-tuned model trained on some sample data for the dialog classification to work well. For more information on how to do this, checkout the [fine-tuning section](README.md#fine-tuning)
+    * __Note__: If you do not have GPT-4 enabled in your subscription please perform a search and replace within `app/backend/bot_config.yaml`.  Search for _gpt-4_ and replace it with _gpt-35-turbo_
+3. Within PowerShell run `azd up`
     * For the target location, the regions that currently support the OpenAI models used in this sample at the time of writing this are **East US** or **South Central US**. For an up-to-date list of regions and models, check [here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/models)
 
 #### azd up
