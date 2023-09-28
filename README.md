@@ -88,7 +88,12 @@ Execute the following command, if you don't have any pre-existing Azure services
 2. This step has already been done within the repo. <BR> _Go to `app/backend/bot_config.yaml`. This file contains the model configuration definitions for the Azure OpenAI models that will be used. It defines request parameters like temperature, max_tokens, etc., as well as the deployment name (`engine`) and model name (`model_name`) of the deployed models to use from your Azure OpenAI resource. These are broken down by task, so the request parameters and model for doing question classification on a user utterance can differ from those used to turn natural language into SQL for example. You will want the deployment name (`engine`) for the `approach_classifier` to match the one set for the classifier model deployed in the last step. For the rest, you will want the deployment name (`engine`) and model name (`model_name`) to match those for the GPT model deployed in the last step. For the models which specify a `total_max_tokens`, you will want to set this value to the maximum number of tokens your deployed GPT model allows for a completions request. This will allow the backend service to know when prompts need to be trimmed to avoid a token limit error._
     * __Note__: that the config for `approach_classifier` doesn't contain a system prompt, this is because the demo expects this model to be a fine-tuned GPT model rather than one trained using few-shot training. You will need to provide a fine-tuned model trained on some sample data for the dialog classification to work well. For more information on how to do this, checkout the [fine-tuning section](README.md#fine-tuning)
     * __Note__: If you do not have GPT-4 enabled in your subscription please perform a search and replace within `app/backend/bot_config.yaml`.  Search for _gpt-4_ and replace it with _gpt-35-turbo_
-3. Within PowerShell run `azd up`
+3. Within PowerShell run the following command to set the default subscription used when completing step 4: `Select-AzSubscription -SubscriptionId '<subscriptionid>'`
+    * __Note__: For more on this topic, check out https://learn.microsoft.com/en-us/powershell/module/az.accounts/update-azconfig?view=azps-10.4.1#-defaultsubscriptionforlogin.  
+
+3. Within PowerShell run the following command to login to your tenant and subscription to where you would like to deploy the resources: `Connect-AzAccount -Tenant '<tenantid>' -SubscriptionId '<subscriptionid>'`
+    * __Note__: This is needed if you have access to multiple subscriptions and tenants.  
+4. Within PowerShell run `azd up`
     * For the target location, the regions that currently support the OpenAI models used in this sample at the time of writing this are **East US** or **South Central US**. For an up-to-date list of regions and models, check [here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/models)
 
 #### azd up
@@ -148,6 +153,17 @@ The API deployment for this resource does not exist. If you created the deployme
 > Ensure that the `AZURE-OPENAI-CLASSIFIER-SERVICE` and `AZURE-OPENAI-CLASSIFIER-API-KEY` secrets in the keyvault are pointing to the right resources.
 
 > Ensure that model and engine name palceholders in the app/backend/bot_config.yaml file have be updated.
+
+3. If you receive the following error when running `azd up`:
+```
+WARNING: Unable to acquire token for tenant '00000000-0000-0000-0000-000000000000' with error 
+```
+Add the AZURE_TENANT_ID and AZURE_SUBSCRIPTION_ID variables to your .env file.
+For example...
+```
+AZURE_SUBSCRIPTION_ID="<subscriptionid>"
+AZURE_TENANT_ID="<tenantid>"
+```
 
 #### Deploying or re-deploying a local clone of the repo
 
