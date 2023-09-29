@@ -84,14 +84,14 @@ Due to high demand, Azure OpenAI resources can be difficult to spin up on the fl
 
 Execute the following command, if you don't have any pre-existing Azure services and want to start from a fresh deployment.
 
-1 . Run `azd init`
-2.  Create a service principal with contributor access at the Azure sub level.  Note the object id, client id, client secret, and tenant id.
-3 . add the following values to the env file
-AZURE_USE_OBJECT_ID="true"
-AZURE_CLIENT_ID="your client id"
-AZURE_CLIENT_SECRET="your client secret"
-AZURE_OBJECT_ID="your object id"
-AZURE_TENANT_ID="your tenant id"
+1. Run `azd init`
+2. Create a service principal with contributor access at the Azure sub level.  Note the object id, client id, client secret, and tenant id.
+3. Add the following values to the env file:
+   - `AZURE_USE_OBJECT_ID="true"`
+   - `AZURE_CLIENT_ID="your client id"`
+   - `AZURE_CLIENT_SECRET="your client secret"`
+   - `AZURE_OBJECT_ID="your object id"`
+   - `AZURE_TENANT_ID="your tenant id"`
 4. Go to `app/backend/bot_config.yaml`. This file contains the model configuration definitions for the Azure OpenAI models that will be used. It defines request parameters like temperature, max_tokens, etc., as well as the deployment name (`engine`) and model name (`model_name`) of the deployed models to use from your Azure OpenAI resource. These are broken down by task, so the request parameters and model for doing question classification on a user utterance can differ from those used to turn natural language into SQL for example. You will want the deployment name (`engine`) for the `approach_classifier` to match the one set for the classifier model deployed in the last step. For the rest, you will want the deployment name (`engine`) and model name (`model_name`) to match those for the GPT model deployed in the last step. For the models which specify a `total_max_tokens`, you will want to set this value to the maximum number of tokens your deployed GPT model allows for a completions request. This will allow the backend service to know when prompts need to be trimmed to avoid a token limit error.
     * Note that the config for `approach_classifier` doesn't contain a system prompt, this is because the demo expects this model to be a fine-tuned GPT model rather than one trained using few-shot training. You will need to provide a fine-tuned model trained on some sample data for the dialog classification to work well. For more information on how to do this, checkout the [fine-tuning section](README.md#fine-tuning)
 5. Run `azd up`
