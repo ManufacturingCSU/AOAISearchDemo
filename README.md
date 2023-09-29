@@ -52,8 +52,8 @@ There are two pre-recorded voiceovers that shows how enterprises can use this ar
 * [The AzureAD PowerShell module version 2.0.2.180 or above](https://learn.microsoft.com/en-us/powershell/module/azuread/?view=azureadps-2.0)
 * [ODBC Driver for SQL Server v18](https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server)
 * Install these PowerShell modules:
-  * 	Install-Module -Name Az.Resources
-  * 	Install-Module -Name Az.Accounts 
+  - Install-Module -Name Az.Resources
+  - Install-Module -Name Az.Accounts 
 
 
 >NOTE: Your Azure Account must have `Microsoft.Authorization/roleAssignments/write` permissions, such as [User Access Administrator](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#user-access-administrator) or [Owner](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#owner).  
