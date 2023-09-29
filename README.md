@@ -51,6 +51,9 @@ There are two pre-recorded voiceovers that shows how enterprises can use this ar
   * **Important**: Ensure you can run `pwsh.exe` from a PowerShell command. If this fails, you likely need to upgrade PowerShell.
 * [The AzureAD PowerShell module version 2.0.2.180 or above](https://learn.microsoft.com/en-us/powershell/module/azuread/?view=azureadps-2.0)
 * [ODBC Driver for SQL Server v18](https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server)
+* Install these PowerShell modules:
+  * 	Install-Module -Name Az.Resources
+  * 	Install-Module -Name Az.Accounts 
 
 
 >NOTE: Your Azure Account must have `Microsoft.Authorization/roleAssignments/write` permissions, such as [User Access Administrator](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#user-access-administrator) or [Owner](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#owner).  
@@ -167,7 +170,7 @@ The API deployment for this resource does not exist. If you created the deployme
 2. For the `app/backend` and `app/data` directories, copy the contents of `app/backend/.env.template` and `app/data/.env.template` into a new `.env` file in each directory. Fill in every blank environment variable with the keys and names of the resources that were deployed in the previous step, or with the resources you've deployed on your own.
 3. Go to `app/backend/bot_config.yaml`. This file contains the model configuration definitions for the Azure OpenAI models that will be used. It defines request parameters like temperature, max_tokens, etc., as well as the the deployment name (`engine`) and model name (`model_name`) of the deployed models to use from your Azure OpenAI resource. These are broken down by task, so the request parameters and model for doing question classification on a user utterance can differ from those used to turn natural language into SQL for example. You will want the deployment name (`engine`) for the `approach_classifier` to match the one set for the classifier model deployed in the last step. For the rest, you will want the deployment name (`engine`) and model name (`model_name`) to match those for the GPT model deployed in the first step. For the models which specify a `total_max_tokens`, you will want to set this value to the maximum number of tokens your deployed GPT model allows for a completions request. This will allow the backend service to know when prompts need to be trimmed to avoid a token limit error.
     * Note that the config for `approach_classifier` doesn't contain a system prompt, this is because the demo expects this model to be a fine-tuned GPT model rather than one trained using few-shot training. You will need to provide a fine-tuned model trained on some sample data for the dialog classification to work well. For more information on how to do this, checkout the [fine-tuning section](README.md#fine-tuning)
-4. Add your local IP address to the allowed IP addresses on the data service
+4. Add your local IP address to the allowed IP addresses on the network tab for the SQL Server and the data service web app
 5. Change dir to `app`.
 6. Run `../scripts/start.ps1` or run the VS Code Launch - "Frontend: build", "Data service: Launch & Attach Server" and "Backend: Launch & Attach Server" to start the project locally.
 
