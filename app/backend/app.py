@@ -124,9 +124,6 @@ def chat():
     history = [{"participant_type": dialog.participant_type.value, "utterance": dialog.utterance, "question_type": dialog.classification.value} for dialog in chat_session.conversation]
     history.append({"participant_type": ParticipantType.user.value, "utterance": user_message})
     
-    bot_config = yaml.safe_load(open("./backend/bot_config.yaml", "r"))
-
-    #local app version:
     #bot_config = yaml.safe_load(open("./app/backend/bot_config.yaml", "r"))
     
     question_classification = None
