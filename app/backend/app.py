@@ -128,7 +128,7 @@ def chat():
     #bot_config = yaml.safe_load(open("./backend/bot_config.yaml", "r"))
 
     #local app version:
-    bot_config = yaml.safe_load(open("C:/customers/Microsoft/openai/End_to_end_Solutions/AOAISearchDemo/app/backend/bot_config.yaml", "r"))
+    bot_config = yaml.safe_load(open("C:/customers/MFG/openai/End_to_end_Solutions/AOAISearchDemo/app/backend/bot_config.yaml", "r"))
     
     question_classification = None
 

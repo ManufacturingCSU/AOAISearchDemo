@@ -120,11 +120,11 @@ unstructured_final_answer_generation:
     user_message_format: "{utterance}"
     assistant_message_format: "{formatted_answer}"
   openai_settings:
-    engine: gpt-4
+    engine: gpt-35-turbo-16K
     temperature: 0.0
     top_p: 0.0
     max_tokens: 800
     n: 1
   model_params:
-    model_name: gpt-4
+    model_name: gpt-35-turbo-16K
     total_max_tokens: 8000
