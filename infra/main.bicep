@@ -60,7 +60,7 @@ param formRecognizerSkuName string = 'S0'
 @description('Id of the user or app to assign application roles')
 param principalId string = ''
 param objectId string = ''
-param useObjectId bool = false
+param useObjectId bool = false  //use this to determine if we should add the objectId to the keyvault access policies
 
 var abbrs = loadJsonContent('abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
@@ -269,9 +269,6 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
           format: 'OpenAI'
           name: !empty(gptModelName) ? gptModelName : 'gpt-4'
           version: gptModelVersion
-//        }
-//        scaleSettings: {
-//            scaleType: 'Standard'
         }
         sku: {
           name: 'Standard'
@@ -285,9 +282,6 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
           name: !empty(classifierGptModelName) ? classifierGptModelName : 'gpt-35-turbo'
           version: classifierGptModelVersion
        }
-//       scaleSettings: {
-//        scaleType: 'Standard'
-//        }
     sku: {
       name: 'Standard'
       capacity: 10  //10K TPM

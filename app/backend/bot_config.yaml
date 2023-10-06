@@ -26,7 +26,7 @@ approach_classifier:
     user_message_format: "{utterance}"
     assistant_message_format: "{formatted_answer}"
   openai_settings:
-    engine: gpt-35-turbo-16K
+    engine: gpt-35-turbo
     max_tokens: 1
     temperature: 0.0
     top_p: 0.0
