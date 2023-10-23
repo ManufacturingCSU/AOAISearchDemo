@@ -46,10 +46,14 @@ blob_container = blob_client.get_container_client(DefaultConfig.AZURE_STORAGE_CO
 # get the logger that is already initialized
 logger = DefaultConfig.logger
 
+
+useSQLRBAC = DefaultConfig.USE_SQL_RBAC
+logger.info(f"Using SQL RBAC: {useSQLRBAC}")
+
 chat_approaches = {
     ApproachType.unstructured.name: ChatUnstructuredApproach(search_client, DefaultConfig.KB_FIELDS_SOURCEPAGE,
                                         DefaultConfig.KB_FIELDS_CONTENT, logger, search_threshold_percentage = DefaultConfig.SEARCH_THRESHOLD_PERCENTAGE),
-    ApproachType.structured.name: ChatStructuredApproach(DefaultConfig.SQL_CONNECTION_STRING, logger)                        
+    ApproachType.structured.name: ChatStructuredApproach(DefaultConfig.SQL_CONNECTION_STRING, useSQLRBAC, logger)                        
 }
 
 
@@ -124,7 +128,7 @@ def chat():
     history = [{"participant_type": dialog.participant_type.value, "utterance": dialog.utterance, "question_type": dialog.classification.value} for dialog in chat_session.conversation]
     history.append({"participant_type": ParticipantType.user.value, "utterance": user_message})
     
-    bot_config = yaml.safe_load(open("./app/backend/bot_config.yaml", "r"))
+    bot_config = yaml.safe_load(open("./backend/bot_config.yaml", "r"))
     
     question_classification = None
 

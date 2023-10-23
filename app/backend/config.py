@@ -88,6 +88,7 @@ class DefaultConfig:
                 cls.DATA_SERVICE_URI = config_reader.read_config_value("DATA-SERVICE-URI")
 
                 cls.SQL_CONNECTION_STRING = config_reader.read_config_value("SQL-CONNECTION-STRING")
+                cls.USE_SQL_RBAC = config_reader.read_config_value("USE-SQL-RBAC")
 
                 cls.RATIO_OF_INDEX_TO_HISTORY = int(os.getenv("RATIO_OF_INDEX_TO_HISTORY", 5)) if os.getenv("RATIO_OF_INDEX_TO_HISTORY") != "" else 5
                 cls.SEARCH_THRESHOLD_PERCENTAGE = int(os.getenv("SEARCH_THRESHOLD_PERCENTAGE", 50)) if os.getenv("SEARCH_THRESHOLD_PERCENTAGE") != "" else 50

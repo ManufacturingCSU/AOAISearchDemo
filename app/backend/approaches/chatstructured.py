@@ -21,9 +21,10 @@ from common.logging.log_helper import CustomLogger
 
 
 class ChatStructuredApproach(Approach):
-    def __init__(self, sql_connection_string: str, logger: CustomLogger):
+    def __init__(self, sql_connection_string: str, useSQLRBAC: bool, logger: CustomLogger):
         self.sql_connection_string = sql_connection_string
         self.logger = logger
+        self.useSQLRBAC = useSQLRBAC
 
     def run(self, history, bot_config, overrides: dict) -> any:
         unauthorized_error_messages = [
@@ -53,6 +54,13 @@ class ChatStructuredApproach(Approach):
         )
 
         generated_sql_query = nl_to_sql_response['choices'][0]['message']['content']
+
+        #if(self.useSQLRBAC):
+        if(False):
+            #use an EXECUTE AS user
+            #how do we get the logged in user?  Hard code to Emma for now
+            generated_sql_query = "EXECUTE AS USER = 'EmmaMiller'; " + generated_sql_query + " REVERT;"
+
         self.log_aoai_response_details(json.dumps(message_list), generated_sql_query, nl_to_sql_response)
         answer = Answer()
 
