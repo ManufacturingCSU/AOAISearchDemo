@@ -15,6 +15,9 @@ There are two pre-recorded voiceovers that shows how enterprises can use this ar
 
 ![RAG Architecture](docs/appcomponents.png)
 
+## Customizing this repo
+Pleas see this recorded code walk through to customize for your purposes:  
+
 ## Features
 
 * Chat on different data sources (structured and unstructured)
