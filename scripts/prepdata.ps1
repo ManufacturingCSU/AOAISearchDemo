@@ -31,14 +31,16 @@ if ($clientId -eq "" -or $clientSecret -eq "" -or $tenantId -eq "") {
   Write-Host ""
   Write-Host "Fetching secrets from Azure KeyVault using default authentication..."
   Write-Host ""
-  Connect-AzAccount
+
+  $Credential = New-Object System.Management.Automation.PSCredential ($clientId, (ConvertTo-SecureString $clientSecret -AsPlainText -Force))
+  Connect-AzAccount -Credential $Credential -Tenant $tenantId -ServicePrincipal
+
 } else {
   Write-Host ""
   Write-Host "Fetching secrets from Azure KeyVault using service principal authentication..."
   Write-Host ""
   
-  $Credential = New-Object System.Management.Automation.PSCredential ($clientId, (ConvertTo-SecureString $clientSecret -AsPlainText -Force))
-  Connect-AzAccount -Credential $Credential -Tenant $tenantId -ServicePrincipal
+  Connect-AzAccount
 }
 
 # Set the environment variables
